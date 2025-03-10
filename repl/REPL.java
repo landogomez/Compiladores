@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.List;
 import java.util.Scanner;
 
 public class REPL {
@@ -19,9 +20,11 @@ public class REPL {
             
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
                 String line;
+                StringBuilder content = new StringBuilder();
                 while ((line = reader.readLine()) != null) {
-                    System.out.println(line);
+                    content.append(line).append("\n");
                 }
+                procesarEntrada(content.toString());
             } catch (IOException e) {
                 System.err.println("Error al leer el archivo: " + e.getMessage());
             }
@@ -30,9 +33,17 @@ public class REPL {
             Scanner scanner = new Scanner(System.in);
             while (scanner.hasNextLine()) {
                 String input = scanner.nextLine();
-                System.out.println(input);
+                procesarEntrada(input);
             }
             scanner.close();
+        }
+    }
+
+    private static void procesarEntrada(String input) {
+        Escaner escaner = new Escaner();
+        List<Token> tokens = escaner.generarToken(input);
+        for (Token token : tokens) {
+            System.out.println(token);
         }
     }
 }
