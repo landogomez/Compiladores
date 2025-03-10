@@ -15,6 +15,12 @@ public class Escaner {
         int i = 0;
         while(i < input.length()) {
             char c = input.charAt(i);
+
+            if (Character.isWhitespace(c)) {
+                if (c == '\n') linea++;
+                i++;
+                continue;
+            }
             if (Character.isDigit(c)) {
                 if (c == '\n') linea++;
                     i++;
@@ -23,6 +29,20 @@ public class Escaner {
             }
             if (c == '/' && i + 1 < input.length() && input.charAt(i + 1) == '/') {
                 while (i < input.length() && input.charAt(i) != '\n') i++;
+                continue;
+            }
+
+            if (c == '/' && i + 1 < input.length() && input.charAt(i + 1) == '*') {
+                i += 2;
+                while (i < input.length() - 1 && !(input.charAt(i) == '*' && input.charAt(i + 1) == '/')) {
+                    if (input.charAt(i) == '\n') linea++;
+                    i++;
+                }
+                if (i >= input.length() - 1) {
+                    System.out.println("ERROR: Comentario de múltiples líneas sin cerrar en línea " + linea);
+                    return tokens;
+                }
+                i += 2;
                 continue;
             }
             if (Character.isLetter(c)) {
@@ -92,8 +112,13 @@ public class Escaner {
             if (matched) continue;
             
             // Manejo de errores léxicos
-            System.out.println("Error léxico en línea " + linea + ": Caracter inesperado '" + c + "'");
-            return tokens;
+            if (c == '[' || c == ']') {
+                System.out.println("ERROR: Se detectó un carácter no válido " + c + " en la línea " + linea);
+                i++;
+                continue;
+            }
+            System.out.println("ERROR: Carácter inesperado '" + c + "' en la línea " + linea);
+            i++;
         }
         
         // Agregar token de fin de cadena
