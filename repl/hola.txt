@@ -1,5 +1,1 @@
-Hola 
-A
-Todos
-
-Espero se encuentren excelente!
+print"Hola mundo";

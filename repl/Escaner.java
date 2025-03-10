@@ -83,7 +83,7 @@ public class Escaner {
             // Detectar signos de puntuación
             for (String punc : SIGNOS_PUNTUACION) {
                 if (input.startsWith(punc, i)) {
-                    tokens.add(new Token("PUNCTUATION", punc, punc, linea));
+                    tokens.add(new Token("SIGNO DE PUNTUACION", punc, punc, linea));
                     i += punc.length();
                     matched = true;
                     break;
