@@ -1,9 +1,10 @@
 public class Token {
-    String nombre, lexema, literal;
+    TipoToken tipo;
+    String lexema, literal;
     int linea;
 
-    public Token(String nombre, String lexema, String literal, int linea) {
-        this.nombre = nombre;
+    public Token(TipoToken tipo, String lexema, String literal, int linea) {
+        this.tipo = tipo;
         this.lexema = lexema;
         this.literal = literal;
         this.linea = linea;
@@ -11,6 +12,11 @@ public class Token {
 
     @Override
     public String toString() {
-        return String.format("<%s, %s, %s, %d>", nombre, lexema, literal, linea);
+        if (tipo == TipoToken.BANG || tipo == TipoToken.BANG_EQUAL || tipo == TipoToken.EQUAL || tipo == TipoToken.EQUAL_EQUAL ||
+            tipo == TipoToken.GREATER || tipo == TipoToken.GREATER_EQUAL || tipo == TipoToken.LESS || tipo == TipoToken.LESS_EQUAL) {
+            return String.format("<%s, Linea: %d>", tipo.name(), linea);
+        } else {
+            return String.format("<%s, Lexema: %s, Linea: %d>", tipo.name(), lexema, linea);
+        }
     }
 }
