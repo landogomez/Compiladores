@@ -3,8 +3,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Escaner {
-    private static final String[] PALABRAS_RESERVADAS = {"if", "else", "while", "for", "true", "false"};
-    private static final String[] OPERADORES = {"!", "!=", "=", "==", ">", ">=", "<", "<="};
+    private static final String[] PALABRAS_RESERVADAS = {"and", "else", "false", "fun", "for", "if", "null", "or", "print", "return", "true", "var", "while"};
+    private static final String[] OPERADORES = {"!=", "==", ">=", "<=", "!", "=", ">", "<", "*", "+", "-"};
     private List<Token> tokens = new ArrayList<>();
     private int linea = 1;
     private int i = 0;
@@ -34,13 +34,11 @@ public class Escaner {
             }
             if (Character.isDigit(c)) {
                 int inicio = i;
-                boolean isFloat = false;
-                while (i < input.length() && (Character.isDigit(input.charAt(i)) || input.charAt(i) == '.')) {
-                    if (input.charAt(i) == '.') isFloat = true;
+                while (i < input.length() && (Character.isDigit(input.charAt(i)) || input.charAt(i) == '.' || input.charAt(i) == 'E' || input.charAt(i) == 'e')) {
                     i++;
                 }
                 String num = input.substring(inicio, i);
-                tokens.add(new Token(isFloat ? TipoToken.NUMBER : TipoToken.NUMBER, num, num, linea));
+                tokens.add(new Token(TipoToken.NUMBER, num, num, linea));
                 continue;
             }
             if (c == '"') {
@@ -58,7 +56,8 @@ public class Escaner {
                     return tokens;
                 }
                 i++;
-                tokens.add(new Token(TipoToken.STRING, input.substring(inicio, i), input.substring(inicio + 1, i - 1), linea));
+                tokens.add(new Token(TipoToken.STRING, input.substring(inicio - 1, i), input.substring(inicio, i - 1), linea));
+                continue;
             }
             boolean matched = false;
             for (String op : OPERADORES) {
@@ -70,10 +69,16 @@ public class Escaner {
                 }
             }
             if (!matched) {
-                System.err.println("Error léxico en la línea " + linea + ": carácter no reconocido '" + c + "'.");
-                i++;
+                if (c == ';') {
+                    tokens.add(new Token(TipoToken.SEMICOLON, String.valueOf(c), null, linea));
+                    i++;
+                } else {
+                    System.err.println("Error léxico en la línea " + linea + ": carácter no reconocido '" + c + "'.");
+                    i++;
+                }
             }
         }
+        tokens.add(new Token(TipoToken.EOF, "$", null, linea));
         return tokens;
     }
 }

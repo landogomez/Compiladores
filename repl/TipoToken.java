@@ -28,6 +28,11 @@ public enum TipoToken {
             case ">=": return GREATER_EQUAL;
             case "<": return LESS;
             case "<=": return LESS_EQUAL;
+            case ";": return SEMICOLON;
+            case "*": return STAR;
+            case "+": return PLUS;
+            case "-": return MINUS;
+            case "/": return SLASH;
             default: throw new IllegalArgumentException("Símbolo no reconocido: " + symbol);
         }
     }
