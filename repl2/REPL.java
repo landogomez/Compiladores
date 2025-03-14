@@ -31,7 +31,7 @@ public class REPL {
         } else {
             // Modo REPL
             Scanner scanner = new Scanner(System.in);
-            System.out.println("Modo REPL" n/"Para detener, presiona CTRL+C");
+            System.out.println("Modo REPL, Para detener, presiona CTRL+C");
 
             // Bucle que las líneas de entrada hasta encontrar EOF
             while (scanner.hasNextLine()) {
