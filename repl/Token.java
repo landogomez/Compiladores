@@ -20,7 +20,7 @@ public class Token {
                    tipo == TipoToken.GREATER || tipo == TipoToken.GREATER_EQUAL || tipo == TipoToken.LESS || tipo == TipoToken.LESS_EQUAL ||
                    tipo == TipoToken.AND || tipo == TipoToken.ELSE || tipo == TipoToken.FALSE || tipo == TipoToken.FUN || tipo == TipoToken.FOR ||
                    tipo == TipoToken.IF || tipo == TipoToken.NULL || tipo == TipoToken.OR || tipo == TipoToken.PRINT || tipo == TipoToken.RETURN ||
-                   tipo == TipoToken.TRUE || tipo == TipoToken.VAR || tipo == TipoToken.WHILE || tipo == TipoToken.STAR || tipo == TipoToken.PLUS || tipo == TipoToken.MINUS) {
+                   tipo == TipoToken.TRUE || tipo == TipoToken.VAR || tipo == TipoToken.WHILE || tipo == TipoToken.STAR || tipo == TipoToken.PLUS || tipo == TipoToken.MINUS || tipo == TipoToken.LEFT_PAREN || tipo == TipoToken.RIGHT_PAREN || tipo == TipoToken.LEFT_BRACE || tipo == TipoToken.RIGHT_BRACE || tipo == TipoToken.COMMA || tipo == TipoToken.DOT) {
             return String.format("<%s, línea: %d>", tipo.name(), linea);
         } else {
             return String.format("<%s, lexema: %s, línea: %d>", tipo.name(), lexema, linea);

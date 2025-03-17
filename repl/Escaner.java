@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Escaner {
     private static final String[] PALABRAS_RESERVADAS = {"and", "else", "false", "fun", "for", "if", "null", "or", "print", "return", "true", "var", "while"};
-    private static final String[] OPERADORES = {"!=", "==", ">=", "<=", "!", "=", ">", "<", "*", "+", "-"};
+    private static final String[] OPERADORES = {"!=", "==", ">=", "<=", "!", "=", ">", "<", "*", "+", "-", ";", ",", ".", "(", ")", "{", "}"};
     private List<Token> tokens = new ArrayList<>();
     private int linea = 1;
     private int i = 0;
@@ -35,13 +35,6 @@ public class Escaner {
                 }
                 if (i < input.length()) i += 2; // Saltar "*/"
                 else System.err.println("Error léxico en la línea " + linea + ": comentario no cerrado.");
-                continue;
-            }
-
-            // Manejar el carácter '/' fuera de un comentario
-            if (c == '/') {
-                System.err.println("Error léxico en la línea " + linea + ": carácter no reconocido '/' fuera de un contexto válido.");
-                i++;
                 continue;
             }
 
@@ -89,7 +82,7 @@ public class Escaner {
                 continue;
             }
 
-            // Identificar operadores
+            // Identificar operadores y símbolos
             boolean matched = false;
             for (String op : OPERADORES) {
                 if (input.startsWith(op, i)) {
@@ -100,15 +93,11 @@ public class Escaner {
                 }
             }
 
+
             // Manejar caracteres no reconocidos
             if (!matched) {
-                if (c == ';') {
-                    tokens.add(new Token(TipoToken.SEMICOLON, String.valueOf(c), null, linea));
-                    i++;
-                } else {
-                    System.err.println("Error léxico en la línea " + linea + ": carácter no reconocido '" + c + "'.");
-                    i++;
-                }
+                System.err.println("Error léxico en la línea " + linea + ": carácter no reconocido '" + c + "'.");
+                i++;
             }
         }
 
