@@ -1,7 +1,7 @@
 public enum TipoToken {
     // Tokens de un sólo caracter
     LEFT_PAREN, RIGHT_PAREN, LEFT_BRACE, RIGHT_BRACE,
-    COMMA, DOT, MINUS, PLUS, SEMICOLON, SLASH, STAR,
+    COMMA, DOT, MINUS, PLUS, SEMICOLON, STAR,
 
     // Tokens de uno o dos caracteres
     BANG, BANG_EQUAL,
@@ -32,7 +32,6 @@ public enum TipoToken {
             case "*": return STAR;
             case "+": return PLUS;
             case "-": return MINUS;
-            case "/": return SLASH;
             default: throw new IllegalArgumentException("Símbolo no reconocido: " + symbol);
         }
     }

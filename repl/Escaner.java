@@ -12,15 +12,40 @@ public class Escaner {
     public List<Token> generarToken(String input) {
         while (i < input.length()) {
             char c = input.charAt(i);
+
+            // Ignorar espacios en blanco
             if (Character.isWhitespace(c)) {
                 if (c == '\n') linea++;
                 i++;
                 continue;
             }
+
+            // Ignorar comentarios de una línea (//)
             if (c == '/' && i + 1 < input.length() && input.charAt(i + 1) == '/') {
                 while (i < input.length() && input.charAt(i) != '\n') i++;
                 continue;
             }
+
+            // Ignorar comentarios largos (/* */)
+            if (c == '/' && i + 1 < input.length() && input.charAt(i + 1) == '*') {
+                i += 2; // Saltar "/*"
+                while (i < input.length() && !(input.charAt(i) == '*' && i + 1 < input.length() && input.charAt(i + 1) == '/')) {
+                    if (input.charAt(i) == '\n') linea++; // Contar líneas dentro del comentario
+                    i++;
+                }
+                if (i < input.length()) i += 2; // Saltar "*/"
+                else System.err.println("Error léxico en la línea " + linea + ": comentario no cerrado.");
+                continue;
+            }
+
+            // Manejar el carácter '/' fuera de un comentario
+            if (c == '/') {
+                System.err.println("Error léxico en la línea " + linea + ": carácter no reconocido '/' fuera de un contexto válido.");
+                i++;
+                continue;
+            }
+
+            // Identificar palabras reservadas e identificadores
             if (Character.isLetter(c)) {
                 int start = i;
                 while (i < input.length() && (Character.isLetterOrDigit(input.charAt(i)) || input.charAt(i) == '_')) i++;
@@ -32,6 +57,8 @@ public class Escaner {
                 }
                 continue;
             }
+
+            // Identificar números
             if (Character.isDigit(c)) {
                 int inicio = i;
                 while (i < input.length() && (Character.isDigit(input.charAt(i)) || input.charAt(i) == '.' || input.charAt(i) == 'E' || input.charAt(i) == 'e')) {
@@ -41,6 +68,8 @@ public class Escaner {
                 tokens.add(new Token(TipoToken.NUMBER, num, num, linea));
                 continue;
             }
+
+            // Identificar cadenas
             if (c == '"') {
                 int inicio = i + 1;
                 i++;
@@ -59,6 +88,8 @@ public class Escaner {
                 tokens.add(new Token(TipoToken.STRING, input.substring(inicio - 1, i), input.substring(inicio, i - 1), linea));
                 continue;
             }
+
+            // Identificar operadores
             boolean matched = false;
             for (String op : OPERADORES) {
                 if (input.startsWith(op, i)) {
@@ -68,6 +99,8 @@ public class Escaner {
                     break;
                 }
             }
+
+            // Manejar caracteres no reconocidos
             if (!matched) {
                 if (c == ';') {
                     tokens.add(new Token(TipoToken.SEMICOLON, String.valueOf(c), null, linea));
@@ -78,6 +111,8 @@ public class Escaner {
                 }
             }
         }
+
+        // Agregar token EOF al final
         tokens.add(new Token(TipoToken.EOF, "$", null, linea));
         return tokens;
     }
