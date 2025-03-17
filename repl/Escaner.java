@@ -3,7 +3,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Escaner {
-    private static final String[] PALABRAS_RESERVADAS = {"and", "else", "false", "fun", "for", "if", "null", "or", "print", "return", "true", "var", "while"};
+    private static final String[] PALABRAS_RESERVADAS = {"and", "else", "false", "fun", "for", "if", "null", "or", "print", "return", "true", "var", "while", "input"};
     private static final String[] OPERADORES = {"!=", "==", ">=", "<=", "!", "=", ">", "<", "*", "+", "-", ";", ",", ".", "(", ")", "{", "}"};
     private List<Token> tokens = new ArrayList<>();
     private int linea = 1;

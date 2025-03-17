@@ -16,6 +16,9 @@ public enum TipoToken {
     AND, ELSE, FALSE, FUN, FOR, IF, NULL, OR,
     PRINT, RETURN, TRUE, VAR, WHILE,
 
+    //Nueva Funcionalidad
+    INPUT,
+
     EOF;
 
     public static TipoToken fromSymbol(String symbol) {
