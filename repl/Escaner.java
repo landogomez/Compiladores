@@ -51,16 +51,54 @@ public class Escaner {
                 continue;
             }
 
-            // Identificar números
-            if (Character.isDigit(c)) {
-                int inicio = i;
-                while (i < input.length() && (Character.isDigit(input.charAt(i)) || input.charAt(i) == '.' || input.charAt(i) == 'E' || input.charAt(i) == 'e')) {
-                    i++;
-                }
-                String num = input.substring(inicio, i);
-                tokens.add(new Token(TipoToken.NUMBER, num, num, linea));
-                continue;
-            }
+            //Identificar números y flotantes
+if (Character.isDigit(c)) {
+    int inicio = i;
+    boolean esFloat = false;
+    boolean esDouble = false;
+
+    // Avanzar mientras sea un dígito
+    while (i < input.length() && Character.isDigit(input.charAt(i))) {
+        i++;
+    }
+
+    // Verificar si hay un punto decimal seguido de más dígitos
+    if (i < input.length() && input.charAt(i) == '.' && i + 1 < input.length() && Character.isDigit(input.charAt(i + 1))) {
+        esFloat = true;
+        i++; // Saltar el punto decimal
+        while (i < input.length() && Character.isDigit(input.charAt(i))) {
+            i++;
+        }
+    }
+// Verificar si hay una E o e para notación exponencial
+    if (i < input.length()  && (input.charAt(i) == 'E' || input.charAt(i) == 'e')) {
+        esDouble = true;
+        i++; // Saltar la E o e
+
+        // Verificar si hay un signo (+ o -) después de la E
+        if (i < input.length() && (input.charAt(i) == '+' || input.charAt(i) == '-')) {
+            i++; // Saltar el signo
+        }
+
+        // Avanzar mientras sea un dígito
+        while (i < input.length() && Character.isDigit(input.charAt(i))) {
+            i++;
+        }
+    }
+
+    // Extraer el número
+    String num = input.substring(inicio, i);
+
+    // Crear el token correspondiente
+    if (esDouble) {
+        tokens.add(new Token(TipoToken.DOUBLE, num, num, linea));
+    } if (esFloat) {
+        tokens.add(new Token(TipoToken.FLOAT, num, num, linea));
+    } else {
+        tokens.add(new Token(TipoToken.NUMBER, num, num, linea));
+    }
+    continue;
+}
 
             // Identificar cadenas
             if (c == '"') {
