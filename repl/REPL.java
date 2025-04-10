@@ -42,8 +42,14 @@ public class REPL {
     private static void procesarEntrada(String input) {
         Escaner escaner = new Escaner();
         List<Token> tokens = escaner.generarToken(input);
-        for (Token token : tokens) {
-            System.out.println(token);
+
+        try {
+            // Crear el parser y analizar los tokens
+            Parser parser = new Parser(tokens);
+            parser.parse();
+        } catch (RuntimeException e) {
+            // Imprimir el error sintáctico si ocurre
+            System.err.println(e.getMessage());
         }
     }
 }

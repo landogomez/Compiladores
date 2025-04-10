@@ -9,6 +9,17 @@ public class Token {
         this.literal = literal;
         this.linea = linea;
     }
+    public String getType() {
+        return tipo.name();
+    }
+
+    public String getLexeme() {
+        return lexema;
+    }
+
+    public int getLine() {
+        return linea;
+    }
 
     @Override
     public String toString() {

@@ -44,7 +44,13 @@ public class Escaner {
                 while (i < input.length() && (Character.isLetterOrDigit(input.charAt(i)) || input.charAt(i) == '_')) i++;
                 String palabra = input.substring(start, i);
                 if (Arrays.asList(PALABRAS_RESERVADAS).contains(palabra)) {
-                    tokens.add(new Token(TipoToken.valueOf(palabra.toUpperCase()), palabra, palabra.equals("true") ? "1" : palabra.equals("false") ? "0" : palabra, linea));
+                    tokens.add(new Token(
+                        TipoToken.valueOf(palabra.toUpperCase()), 
+                        palabra, 
+                        palabra.equals("true") ? "1" : palabra.equals("false") ? "0" : palabra, 
+                        linea
+                     ));
+                    System.out.println("Token generado: " + new Token(TipoToken.valueOf(palabra.toUpperCase()), palabra, palabra, linea));
                 } else {
                     tokens.add(new Token(TipoToken.IDENTIFIER, palabra, palabra, linea));
                 }
